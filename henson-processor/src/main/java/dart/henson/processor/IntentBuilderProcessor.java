@@ -89,7 +89,7 @@ public class IntentBuilderProcessor extends AbstractProcessor {
     final Map<TypeElement, ExtraBindingTarget> targetClassMap = findAndParseTargets();
     generateIntentBuilders(targetClassMap);
 
-    //return false here to let dart process the annotations too
+    // return false here to let dart process the annotations too
     return false;
   }
 
@@ -127,7 +127,7 @@ public class IntentBuilderProcessor extends AbstractProcessor {
 
   private void generateIntentBuildersForTree(
       Map<TypeElement, ExtraBindingTarget> targetClassMap, TypeElement typeElement) {
-    //we unfortunately can't test that nothing is generated in a TRUTH based test
+    // we unfortunately can't test that nothing is generated in a TRUTH based test
     final ExtraBindingTarget extraBindingTarget = targetClassMap.get(typeElement);
     try {
       IntentBuilderGenerator generator = new IntentBuilderGenerator(extraBindingTarget);

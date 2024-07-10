@@ -25,7 +25,7 @@ import java.util.Set;
 public class StringUtil {
 
   // @formatter:off
-  //You must go to Preferences->Code Style->General->Formatter Control
+  // You must go to Preferences->Code Style->General->Formatter Control
   // and check Enable formatter markers in comments for this to work.
   private static final Set<String> JAVA_KEYWORDS =
       new HashSet<>(

@@ -13,7 +13,7 @@ dependencies {
     implementation deps.parceler.runtime
     compileOnly deps.android.runtime
 
-    testImplementation files(org.gradle.internal.jvm.Jvm.current().getToolsJar())
+//    testImplementation files(org.gradle.internal.jvm.Jvm.current().getToolsJar())
     testImplementation deps.junit
     testImplementation deps.compiletesting
     testImplementation deps.truth

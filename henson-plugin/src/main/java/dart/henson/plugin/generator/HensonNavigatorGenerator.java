@@ -27,8 +27,7 @@ public class HensonNavigatorGenerator {
     String packageStatement = "package " + packageName + ";\n";
 
     StringBuilder importStatement = new StringBuilder("import android.content.Context;\n");
-    targetActivities
-        .stream()
+    targetActivities.stream()
         .forEach(
             targetActivity -> {
               importStatement.append(format("import %s__IntentBuilder;\n", targetActivity));
@@ -36,8 +35,7 @@ public class HensonNavigatorGenerator {
 
     String classStartStatement = "public class HensonNavigator {\n";
     StringBuilder methodStatement = new StringBuilder();
-    targetActivities
-        .stream()
+    targetActivities.stream()
         .forEach(
             targetActivity -> {
               String targetActivitySimpleName =

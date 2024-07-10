@@ -38,7 +38,9 @@ import org.gradle.api.Action;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.Project;
 import org.gradle.api.attributes.AttributeContainer;
+import org.gradle.api.file.ConfigurableFileTree;
 import org.gradle.api.file.FileCollection;
+import org.gradle.api.internal.file.FileCollectionInternal;
 import org.gradle.api.internal.file.UnionFileCollection;
 import org.gradle.api.logging.Logger;
 import org.gradle.api.tasks.CacheableTask;
@@ -55,8 +57,8 @@ public class GenerateHensonNavigatorTask extends DefaultTask {
   @InputFiles
   @Classpath
   FileCollection getJarDependencies() {
-    //Thanks to Xavier Durcrohet for this
-    //https://android.googlesource.com/platform/tools/base/+/gradle_3.0.0/build-system/gradle-core/src/main/java/com/android/build/gradle/internal/scope/VariantScopeImpl.java#1037
+    // Thanks to Xavier Durcrohet for this
+    // https://android.googlesource.com/platform/tools/base/+/gradle_3.0.0/build-system/gradle-core/src/main/java/com/android/build/gradle/internal/scope/VariantScopeImpl.java#1037
     Action<AttributeContainer> attributes =
         container ->
             container.attribute(ARTIFACT_TYPE, AndroidArtifacts.ArtifactType.CLASSES.getType());
@@ -74,6 +76,10 @@ public class GenerateHensonNavigatorTask extends DefaultTask {
   }
 
   @Input String hensonNavigatorPackageName;
+
+  public String getHensonNavigatorPackageName() {
+    return hensonNavigatorPackageName;
+  }
 
   File destinationFolder;
 
@@ -94,9 +100,13 @@ public class GenerateHensonNavigatorTask extends DefaultTask {
   public void generateHensonNavigator() {
     TaskProvider<JavaCompile> javaCompiler = variant.getJavaCompileProvider();
     FileCollection variantCompileClasspath = getJarDependencies();
+    //    ConfigurableFileTree configurableFileTree1 = javaCompiler.get().getSource();
+    ConfigurableFileTree configurableFileTree2 = getProject().fileTree(destinationFolder);
     FileCollection uft =
         new UnionFileCollection(
-            javaCompiler.get().getSource(), project.fileTree(destinationFolder));
+            toFileCollectionInternal(javaCompiler.get().getSource()),
+            toFileCollectionInternal(configurableFileTree2));
+
     javaCompiler.get().setSource(uft);
     logger.debug("Analyzing configuration: " + variantCompileClasspath.getFiles());
     Set<String> targetActivities = new HashSet<>();
@@ -140,6 +150,11 @@ public class GenerateHensonNavigatorTask extends DefaultTask {
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
+  }
+
+  private FileCollectionInternal toFileCollectionInternal(FileCollection fileCollection) {
+    // Convert FileCollection to FileCollectionInternal
+    return (FileCollectionInternal) fileCollection.getAsFileTree();
   }
 
   private List<String> getJarContent(File file) {

@@ -68,7 +68,7 @@ public final class NavigationModelBinderProcessor extends AbstractProcessor {
     Map<TypeElement, NavigationModelBindingTarget> targetClassMap = findAndParseTargets();
     generateNavigationModelBinder(targetClassMap);
 
-    //return false here to let henson process the annotations too
+    // return false here to let henson process the annotations too
     return false;
   }
 
@@ -92,7 +92,7 @@ public final class NavigationModelBinderProcessor extends AbstractProcessor {
       TypeElement typeElement = entry.getKey();
       NavigationModelBindingTarget navigationModelBindingTarget = entry.getValue();
 
-      //we unfortunately can't test that nothing is generated in a TRUTH based test
+      // we unfortunately can't test that nothing is generated in a TRUTH based test
       try {
         NavigationModelBinderGenerator generator =
             new NavigationModelBinderGenerator(navigationModelBindingTarget);

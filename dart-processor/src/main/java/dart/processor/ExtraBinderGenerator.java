@@ -140,7 +140,7 @@ public class ExtraBinderGenerator extends BaseGenerator {
     builder.addCode("($T) ", TypeName.get(fieldType));
   }
 
-  //TODO add android annotations dependency to get that annotation plus others.
+  // TODO add android annotations dependency to get that annotation plus others.
 
   /** Visible for testing */
   String emitHumanDescription(List<Binding> bindings) {

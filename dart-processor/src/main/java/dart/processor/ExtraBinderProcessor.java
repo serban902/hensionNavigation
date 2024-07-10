@@ -79,7 +79,7 @@ public final class ExtraBinderProcessor extends AbstractProcessor {
     Map<TypeElement, ExtraBindingTarget> targetClassMap = findAndParseTargets();
     generateExtraBinders(targetClassMap);
 
-    //return false here to let henson process the annotations too
+    // return false here to let henson process the annotations too
     return false;
   }
 
@@ -112,7 +112,7 @@ public final class ExtraBinderProcessor extends AbstractProcessor {
       TypeElement typeElement = entry.getKey();
       ExtraBindingTarget extraBindingTarget = entry.getValue();
 
-      //we unfortunately can't test that nothing is generated in a TRUTH based test
+      // we unfortunately can't test that nothing is generated in a TRUTH based test
       try {
         ExtraBinderGenerator generator = new ExtraBinderGenerator(extraBindingTarget);
         fileUtil.writeFile(generator, typeElement);

@@ -74,7 +74,7 @@ public class IntentBuilderGenerator extends BaseGenerator {
     emitResolvedOptionalSequence(intentBuilderTypeBuilder);
     emitInitialState(intentBuilderTypeBuilder);
 
-    //build
+    // build
     JavaFile javaFile =
         JavaFile.builder(target.classPackage, intentBuilderTypeBuilder.build())
             .addFileComment("Generated code from Henson. Do not modify!")
@@ -145,7 +145,7 @@ public class IntentBuilderGenerator extends BaseGenerator {
   }
 
   private void emitExtraDSLStateMachine(TypeSpec.Builder intentBuilderTypeBuilder) {
-    //separate required extras from optional extras and sort both sublists.
+    // separate required extras from optional extras and sort both sublists.
     List<ExtraInjection> requiredInjections = new ArrayList<>();
     List<ExtraInjection> optionalInjections = new ArrayList<>();
     for (ExtraInjection extraInjection : target.bindingMap.values()) {
@@ -396,7 +396,7 @@ public class IntentBuilderGenerator extends BaseGenerator {
     if (builderStateClass != builder) {
       builder.addType(builderStateClass.build());
     }
-    //prepare next state class
+    // prepare next state class
     builderStateClass = TypeSpec.classBuilder(nextStateClassName).addModifiers(Modifier.PUBLIC);
     return builderStateClass;
   }
