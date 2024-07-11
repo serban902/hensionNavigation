@@ -29,8 +29,8 @@ def getRepositoryPassword() {
 
 publishing {
     publications {
-        mavenJava(MavenPublication) {
-            from components.java // Adjust if needed for Android projects
+        release(MavenPublication) {
+//            from components.java // Adjust if needed for Android projects
 
             groupId = GROUP
             artifactId = POM_ARTIFACT_ID
@@ -63,14 +63,17 @@ publishing {
                     }
                 }
             }
+//            afterEvaluate {
+//                from components.release
+//            }
         }
     }
 
-//    repositories {
-//        maven {
-//            name = 'local'
-//            url = uri("${project.rootDir}/local-repo")
-//        }
+    repositories {
+        maven {
+            name = 'local'
+            url = uri("${project.rootDir}/local-repo")
+        }
 //        maven {
 //            url = uri(getReleaseRepositoryUrl())
 //            credentials {
@@ -86,12 +89,12 @@ publishing {
 //                password = getRepositoryPassword()
 //            }
 //        }
-//    }
+    }
 }
 
 signing {
     required { isReleaseBuild() && gradle.taskGraph.hasTask("publish") }
-    sign publishing.publications.mavenJava
+    sign publishing.publications.release
 }
 
 if (project.getPlugins().hasPlugin('com.android.application') ||
