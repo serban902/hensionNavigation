@@ -3,4 +3,4 @@ build:
     # Specify multiple commands using '|' for multiline strings
     script: |
       ./gradlew clean build -x test     
-      ./gradlew clean build publish -x test
+      ./gradlew publish
