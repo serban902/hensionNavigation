@@ -68,20 +68,24 @@ publishing {
 
     repositories {
         maven {
-            url = uri(getReleaseRepositoryUrl())
-            credentials {
-                username = getRepositoryUsername()
-                password = getRepositoryPassword()
-            }
+            name = 'jitpack'
+            url = uri("https://jitpack.io")
         }
-        maven {
-            name = 'snapshots'
-            url = uri(getSnapshotRepositoryUrl())
-            credentials {
-                username = getRepositoryUsername()
-                password = getRepositoryPassword()
-            }
-        }
+//        maven {
+//            url = uri(getReleaseRepositoryUrl())
+//            credentials {
+//                username = getRepositoryUsername()
+//                password = getRepositoryPassword()
+//            }
+//        }
+//        maven {
+//            name = 'snapshots'
+//            url = uri(getSnapshotRepositoryUrl())
+//            credentials {
+//                username = getRepositoryUsername()
+//                password = getRepositoryPassword()
+//            }
+//        }
     }
 }
 
