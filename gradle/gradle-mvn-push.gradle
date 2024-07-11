@@ -66,11 +66,11 @@ publishing {
         }
     }
 
-    repositories {
-        maven {
-            name = 'jitpack'
-            url = uri("https://jitpack.io")
-        }
+//    repositories {
+//        maven {
+//            name = 'local'
+//            url = uri("${project.rootDir}/local-repo")
+//        }
 //        maven {
 //            url = uri(getReleaseRepositoryUrl())
 //            credentials {
@@ -86,7 +86,7 @@ publishing {
 //                password = getRepositoryPassword()
 //            }
 //        }
-    }
+//    }
 }
 
 signing {
