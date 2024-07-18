@@ -30,39 +30,39 @@ def getRepositoryPassword() {
 publishing {
     publications {
         release(MavenPublication) {
-//            from components.java // Adjust if needed for Android projects
+            from components.java // Adjust if needed for Android projects
 
             groupId = GROUP
             artifactId = POM_ARTIFACT_ID
             version = VERSION_NAME
 
-//            pom {
-//                name = POM_NAME
-//                packaging = POM_PACKAGING
-//                description = POM_DESCRIPTION
-//                url = POM_URL
-//
-//                scm {
-//                    url = POM_SCM_URL
-//                    connection = POM_SCM_CONNECTION
-//                    developerConnection = POM_SCM_DEV_CONNECTION
-//                }
-//
-//                licenses {
-//                    license {
-//                        name = POM_LICENCE_NAME
-//                        url = POM_LICENCE_URL
-//                        distribution = POM_LICENCE_DIST
-//                    }
-//                }
-//
-//                developers {
-//                    developer {
-//                        id = POM_DEVELOPER_ID
-//                        name = POM_DEVELOPER_NAME
-//                    }
-//                }
-//            }
+            pom {
+                name = POM_NAME
+                packaging = POM_PACKAGING
+                description = POM_DESCRIPTION
+                url = POM_URL
+
+                scm {
+                    url = POM_SCM_URL
+                    connection = POM_SCM_CONNECTION
+                    developerConnection = POM_SCM_DEV_CONNECTION
+                }
+
+                licenses {
+                    license {
+                        name = POM_LICENCE_NAME
+                        url = POM_LICENCE_URL
+                        distribution = POM_LICENCE_DIST
+                    }
+                }
+
+                developers {
+                    developer {
+                        id = POM_DEVELOPER_ID
+                        name = POM_DEVELOPER_NAME
+                    }
+                }
+            }
 //            afterEvaluate {
 //                from components.release
 //            }
@@ -72,7 +72,7 @@ publishing {
     repositories {
         maven {
             name = 'local'
-            url = uri("${project.rootDir}/local-repo")
+            url = uri("${project.rootDir}/hensonNavigation")
         }
 //        maven {
 //            url = uri(getReleaseRepositoryUrl())
