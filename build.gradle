@@ -23,7 +23,7 @@ buildscript {
             truth: 'com.google.truth:truth:0.36',
             robolectric: 'org.robolectric:robolectric:2.4',
             compiletesting: 'com.google.testing.compile:compile-testing:0.12',
-            spotless: 'com.diffplug.spotless:spotless-plugin-gradle:4.5.1',
+            spotless: 'com.diffplug.spotless:spotless-plugin-gradle:6.18.0',
     ]
 
     repositories {
@@ -46,7 +46,7 @@ subprojects {
         google()
     }
 
-    apply plugin: "com.diffplug.gradle.spotless"
+apply plugin: "com.diffplug.spotless"
 
 //    def checkSubTask = project.tasks.findByName('check')
 //    if(checkSubTask) {

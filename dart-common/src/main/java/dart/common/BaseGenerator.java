@@ -27,6 +27,8 @@ public abstract class BaseGenerator {
    */
   public abstract String brewJava();
 
-  /** @return the Fully Qualified Class Name of the generated code. */
+  /**
+   * @return the Fully Qualified Class Name of the generated code.
+   */
   public abstract String getFqcn();
 }

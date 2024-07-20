@@ -17,9 +17,6 @@
 
 package dart.henson.plugin.internal;
 
-import static com.android.build.gradle.internal.publishing.AndroidArtifacts.ARTIFACT_TYPE;
-import static java.util.Collections.singletonList;
-
 import com.android.build.gradle.api.BaseVariant;
 import com.android.build.gradle.internal.publishing.AndroidArtifacts;
 import com.google.common.collect.Streams;
@@ -40,8 +37,6 @@ import org.gradle.api.Project;
 import org.gradle.api.attributes.AttributeContainer;
 import org.gradle.api.file.ConfigurableFileTree;
 import org.gradle.api.file.FileCollection;
-import org.gradle.api.internal.file.FileCollectionInternal;
-import org.gradle.api.internal.file.UnionFileCollection;
 import org.gradle.api.logging.Logger;
 import org.gradle.api.tasks.CacheableTask;
 import org.gradle.api.tasks.Classpath;
@@ -61,7 +56,8 @@ public class GenerateHensonNavigatorTask extends DefaultTask {
     // https://android.googlesource.com/platform/tools/base/+/gradle_3.0.0/build-system/gradle-core/src/main/java/com/android/build/gradle/internal/scope/VariantScopeImpl.java#1037
     Action<AttributeContainer> attributes =
         container ->
-            container.attribute(ARTIFACT_TYPE, AndroidArtifacts.ArtifactType.CLASSES.getType());
+            container.attribute(
+                AndroidArtifacts.ARTIFACT_TYPE, AndroidArtifacts.ArtifactType.CLASSES.getType());
     boolean lenientMode = false;
     return variant
         .getCompileConfiguration()
@@ -100,14 +96,14 @@ public class GenerateHensonNavigatorTask extends DefaultTask {
   public void generateHensonNavigator() {
     TaskProvider<JavaCompile> javaCompiler = variant.getJavaCompileProvider();
     FileCollection variantCompileClasspath = getJarDependencies();
-    //    ConfigurableFileTree configurableFileTree1 = javaCompiler.get().getSource();
     ConfigurableFileTree configurableFileTree2 = getProject().fileTree(destinationFolder);
-    FileCollection uft =
-        new UnionFileCollection(
-            toFileCollectionInternal(javaCompiler.get().getSource()),
-            toFileCollectionInternal(configurableFileTree2));
 
-    javaCompiler.get().setSource(uft);
+    // Combine FileCollections
+    FileCollection combinedFileCollection =
+        javaCompiler.get().getSource().plus(configurableFileTree2);
+
+    javaCompiler.get().setSource(combinedFileCollection);
+
     logger.debug("Analyzing configuration: " + variantCompileClasspath.getFiles());
     Set<String> targetActivities = new HashSet<>();
     Streams.stream(variantCompileClasspath)
@@ -135,6 +131,7 @@ public class GenerateHensonNavigatorTask extends DefaultTask {
                 }
               }
             });
+
     String hensonNavigator =
         hensonNavigatorGenerator.generateHensonNavigatorClass(
             targetActivities, hensonNavigatorPackageName);
@@ -143,26 +140,23 @@ public class GenerateHensonNavigatorTask extends DefaultTask {
     File generatedFolder = new File(destinationFolder, generatedFolderName);
     generatedFolder.mkdirs();
     File generatedFile = getHensonNavigatorSourceFile();
+
     try {
       logger.debug("Generating Henson navigator in " + generatedFile.getAbsolutePath());
       logger.debug(hensonNavigator);
-      Files.write(generatedFile.toPath(), singletonList(hensonNavigator));
+      Files.write(generatedFile.toPath(), Collections.singletonList(hensonNavigator));
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
-  }
-
-  private FileCollectionInternal toFileCollectionInternal(FileCollection fileCollection) {
-    // Convert FileCollection to FileCollectionInternal
-    return (FileCollectionInternal) fileCollection.getAsFileTree();
   }
 
   private List<String> getJarContent(File file) {
     final List<String> result = new ArrayList<>();
     try {
       if (file.getName().endsWith(".jar")) {
-        ZipFile zip = new ZipFile(file);
-        Collections.list(zip.entries()).stream().map(ZipEntry::getName).forEach(result::add);
+        try (ZipFile zip = new ZipFile(file)) {
+          Collections.list(zip.entries()).stream().map(ZipEntry::getName).forEach(result::add);
+        }
       }
     } catch (IOException e) {
       throw new RuntimeException(e);
